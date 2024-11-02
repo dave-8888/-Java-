@@ -144,6 +144,13 @@ public class ScheduleUtils {
         ArrayList<Schedule> schedules;
         SqlSession sqlSession = MyBatisUtils.getSqlSession();
         ScheduleDao dao=sqlSession.getMapper(ScheduleDao.class);
+        if(startTime.length()<=7){
+            startTime = startTime +"-01 00:00:00";
+        }
+        if(endTime.length()<=7){
+            endTime = endTime +"-01 00:00:00";
+        }
+        System.out.println(startTime+"|"+endTime);
         schedules=dao.selectSchedulesIsOkByIDAndByDate(userID,startTime,endTime,isOk);
         sqlSession.commit();
         sqlSession.close();
