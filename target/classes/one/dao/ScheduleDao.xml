@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="one.dao.ScheduleDao">
+        <select id="selectSchedulesByIDAndByDate" resultType="Schedule">
+         select * from schedule where userID=#{userID} and startTime>=#{startTime} and startTime &lt;#{endTime} ORDER BY startTime
+        <!--idea 不识别<,所以用转义符 &lt; 表示<-->
+        </select>
+    <select id="selectSchedulesIsOkByIDAndByDate" resultType="Schedule">
+        select * from schedule where userID=#{userID} and startTime>=#{startTime} and startTime &lt;#{endTime} and isOk=0 ORDER BY startTime
+        <!--idea 不识别<,所以用转义符 &lt; 表示<-->
+    </select>
+    <select id="selectScheduleById" resultType="Schedule">
+        select * from schedule where scheduleID=#{scheduleID}
+    </select>
+    <select id="selectScheduleByIDAndByDateAndByTitle" resultType="Schedule">
+        select  * from schedule where userID=#{userID} and startTime>=#{startTime} and startTime &lt;#{endTime} and scheduleTitle like "%"#{title}"%" ORDER BY startTime
+    </select>
+    <select id="selectScheduleIsOkByIDAndByDateAndByTitle" resultType="Schedule">
+        select  * from schedule where userID=#{userID} and startTime>=#{startTime} and startTime &lt;#{endTime} and scheduleTitle like "%"#{title}"%" and isOk=0 ORDER BY startTime
+    </select>
+    <insert id="insertScheduleByID" >
+        insert into schedule values(#{scheduleID},#{userID},#{scheduleTitle},#{scheduleDetail},#{startTime},#{endTime},#{isAlert},#{isOk})
+    </insert>
+    <update id="updateScheduleByID" >
+        update schedule set scheduleTitle=#{scheduleTitle},scheduleDetail=#{scheduleDetail},startTime=#{startTime},endTime=#{endTime},isAlert=#{isAlert},isOk=#{isOk} where scheduleID=#{scheduleID}
+    </update>
+    <delete id="deleteScheduleByID">
+        DELETE FROM  schedule  WHERE scheduleID=#{scheduleID}
+    </delete>
+    <!--查询最近100条日程信息-->
+    <select id="selectUserByIdOrderByDate" resultType="Schedule">
+    select * from schedule where userID=#{userID} and startTime>#{date} and isAlert=1 order by startTime limit 1000
+    </select>
+    <!--设置是否已完成-->
+    <update id="updateIsOkByID">
+        update schedule set isOk=#{isOk} where scheduleID=#{scheduleID}
+    </update>
+</mapper>

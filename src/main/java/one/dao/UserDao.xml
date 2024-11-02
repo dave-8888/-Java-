@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="one.dao.UserDao">
+    <!--查询密码信息-->
+    <select id="selectUserPasswordById"  resultType="String">
+        select userPassword from user where userID=#{id}
+    </select>
+    <!--添加用户信息-->
+    <insert id="insertUser">
+        insert into user values(#{userID},#{userName},#{userPassword},#{userGender},#{userDate},#{problemOne},#{answerOne},#{problemTwo},#{answerTwo},#{problemThree},#{answerThree})
+    </insert>
+    <!--查询用户密保信息-->
+    <select id="selectUserDetailById" resultType="User">
+        select userID,problemOne,answerOne,problemTwo,answerTwo,problemThree,answerThree from user where userID=#{id}
+    </select>
+    <!--更新用户密码-->
+    <update id="updateUserPassword">
+        update user set userPassword=#{userPassword} where userID=#{userID}
+    </update>
+    <!--更新用户所有信息-->
+    <update id="updateUserAllDetail">
+        update user set userName=#{userName},userPassword=#{userPassword},userGender=#{userGender},userDate=#{userDate},problemOne=#{problemOne},answerOne=#{answerOne},problemTwo=#{problemTwo},answerTwo=#{answerTwo},problemThree=#{problemThree},answerThree=#{answerThree} where userID=#{userID}
+    </update>
+    <!--查询用户所有信息-->
+    <select id="selectUserById" resultType="User">
+        select * from user where userID=#{id}
+    </select>
+
+</mapper>
